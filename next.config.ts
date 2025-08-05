@@ -18,8 +18,9 @@ const HOSTNAME_AWS_S3 =
   process.env.NEXT_PUBLIC_AWS_S3_BUCKET &&
   process.env.NEXT_PUBLIC_AWS_S3_REGION
     // eslint-disable-next-line max-len
-    ? `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_S3_REGION}.amazonaws.com`
+    ? process.env.NEXT_PUBLIC_MINIO_ENDPOINT
     : undefined;
+const AWS_S3_BUCKET = process.env.NEXT_PUBLIC_AWS_S3_BUCKET ?? '';
 
 const generateRemotePattern = (hostname: string) =>
   ({
@@ -48,7 +49,7 @@ const LOCALE_DYNAMIC = `i18n/locales/${LOCALE}`;
 const nextConfig: NextConfig = {
   images: {
     imageSizes: [200],
-    remotePatterns,
+    remotePatterns: [new URL(HOSTNAME_AWS_S3 + '/' + AWS_S3_BUCKET + '/**')],
     minimumCacheTTL: 31536000,
   },
   turbopack: {
@@ -63,6 +64,7 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  output: 'standalone',
 };
 
 module.exports = process.env.ANALYZE === 'true'
