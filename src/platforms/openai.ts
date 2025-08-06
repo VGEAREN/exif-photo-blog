@@ -63,6 +63,9 @@ const getImageTextArgs = (
 ) | undefined => openai ? {
   model: openai(MODEL),
   messages: [{
+    'role': 'system',
+    'content': '请以中文返回所有内容',
+    },{
     'role': 'user',
     'content': [
       {
