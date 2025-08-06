@@ -82,21 +82,12 @@ export const streamOpenAiImageQuery = async (
 ) => {
   await checkRateLimitAndThrow();
 
-  const stream = createStreamableValue('');
-
   const args = getImageTextArgs(imageBase64, query);
 
   if (args) {
-    (async () => {
-      const { textStream } = streamText(args);
-      for await (const delta of textStream) {
-        stream.update(cleanUpAiTextResponse(delta));
-      }
-      stream.done();
-    })();
+    return generateText(args)
+      .then(({ text }) => cleanUpAiTextResponse(text));
   }
-
-  return stream.value;
 };
 
 export const generateOpenAiImageQuery = async (
