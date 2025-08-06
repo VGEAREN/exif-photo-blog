@@ -14,12 +14,7 @@ const HOSTNAME_VERCEL_BLOB = VERCEL_BLOB_STORE_ID
 const HOSTNAME_CLOUDFLARE_R2 =
   process.env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_DOMAIN;
 
-const HOSTNAME_AWS_S3 =
-  process.env.NEXT_PUBLIC_AWS_S3_BUCKET &&
-  process.env.NEXT_PUBLIC_AWS_S3_REGION
-    // eslint-disable-next-line max-len
-    ? process.env.NEXT_PUBLIC_MINIO_ENDPOINT
-    : undefined;
+const HOSTNAME_AWS_S3 = process.env.NEXT_PUBLIC_MINIO_ENDPOINT ?? '';
 const AWS_S3_BUCKET = process.env.NEXT_PUBLIC_AWS_S3_BUCKET ?? '';
 
 const generateRemotePattern = (hostname: string) =>
