@@ -588,7 +588,7 @@ export const streamAiImageQueryAction = async (
 ) =>
   runAuthenticatedAdminServerAction(async () => {
     const existingTags = await getUniqueTags();
-    return streamOpenAiImageQuery(
+    return await streamOpenAiImageQuery(
       imageBase64,
       getAiImageQuery(query, existingTags, existingTitle),
     );
