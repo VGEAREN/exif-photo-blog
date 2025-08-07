@@ -112,6 +112,9 @@ export const isUploadPathnameValid = (pathname?: string) =>
 const getFileNameFromStorageUrl = (url: string) =>
   (new URL(url).pathname.match(/\/(.+)$/)?.[1]) ?? '';
 
+const getFileNameFromMinioStorageUrl = (url: string) =>
+  new URL(url).pathname.split('/').pop() || ''
+
 export const uploadFromClientViaPresignedUrl = async (
   file: File | Blob,
   fileName: string,
@@ -186,7 +189,8 @@ export const deleteFile = (url: string) => {
   case 'cloudflare-r2':
     return cloudflareR2Delete(getFileNameFromStorageUrl(url));
   case 'aws-s3':
-    return awsS3Delete(getFileNameFromStorageUrl(url));
+    console.log(url)
+    return awsS3Delete(getFileNameFromMinioStorageUrl(url));
   }
 };
 
